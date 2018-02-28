@@ -1,0 +1,39 @@
+package com.internousdev.yukazon.action;
+
+import java.sql.SQLException;
+import java.util.Map;
+
+import org.apache.struts2.interceptor.SessionAware;
+
+import com.internousdev.yukazon.dao.PasswordSettingCompleteDAO;
+import com.internousdev.yukazon.dto.LoginDTO;
+import com.opensymphony.xwork2.ActionSupport;
+
+public class PasswordSettingCompleteAction extends ActionSupport implements SessionAware{
+	//ログイン情報を格納しておくMap
+	public Map<String, Object> session;
+	//パスワード設定DAO
+	private PasswordSettingCompleteDAO dao = new PasswordSettingCompleteDAO();
+	//ログイン情報格納DTO
+	private LoginDTO dto = new LoginDTO();
+
+	/* パスワード変更実行メソッドexecute--------------------------------------- */
+	public String execute() throws SQLException{
+
+		String result = ERROR;
+
+		boolean checkPassUpdate =dao.PasswordUpdateInfo (session.get("loginPassword").toString(),
+
+		if(checkPassUpdate){
+			result = SUCCESS;
+		}
+
+		return result;
+	}
+
+	@Override
+	public void setSession(Map<String, Object> session) {
+		this.session = session;
+	}
+}
+

@@ -1,0 +1,45 @@
+package com.internousdev.yukazon.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+import com.internousdev.yukazon.util.DBConnector;
+import com.internousdev.yukazon.util.DateUtil;
+
+public class PasswordSettingCompleteDAO {
+
+	private DBConnector db = new DBConnector();
+
+	private Connection con = db.getConnection();
+
+	private DateUtil util = new DateUtil();
+
+	private String sql ="UPDATE login_user_transaction SET login_pass = ?,updated_date = ? WHERE id = ?";
+
+	public boolean userUpdateInfo(String login_pass,String defaultLoginId) throws SQLException{
+
+		boolean result = false;
+
+		try{
+			PreparedStatement preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setString(1, login_pass);
+			preparedStatement.setString(2, util.getDate());
+			preparedStatement.setString(11, defaultLoginId);
+
+			int checkUpdate = preparedStatement.executeUpdate();
+
+			if(checkUpdate > 0){
+				result = true;
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			con.close();
+		}
+		return result;
+
+
+	}
+}
+

@@ -1,0 +1,5 @@
+package com.internousdev.yukazon.dto;
+
+public class ItemInsertDTO {
+
+}

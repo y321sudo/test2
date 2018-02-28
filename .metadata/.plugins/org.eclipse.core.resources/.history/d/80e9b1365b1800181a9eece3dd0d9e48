@@ -1,0 +1,14 @@
+【web.xml】
+↓welcome-file
+【home.jsp】
+↓
+〔LoginAction〕
+↓success				↓error						↓master
+↓							【loginError.jsp】
+↓
+↓
+↓
+↓
+↓
+↓
+↓

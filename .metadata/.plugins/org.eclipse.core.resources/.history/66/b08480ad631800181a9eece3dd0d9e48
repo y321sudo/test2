@@ -1,0 +1,18 @@
+package com.internousdev.yukazon.action;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.struts2.interceptor.SessionAware;
+
+import com.internousdev.yukazon.dao.BuyItemDAO;
+import com.internousdev.yukazon.dao.PasswordSettingDAO;
+import com.internousdev.yukazon.dto.BuyItemDTO;
+import com.internousdev.yukazon.dto.PasswordSettingDTO;
+import com.opensymphony.xwork2.ActionSupport;
+
+public class PasswordSettingAction extends ActionSupport{
+	public String execute() {
+		return SUCCESS;
+	}
+}

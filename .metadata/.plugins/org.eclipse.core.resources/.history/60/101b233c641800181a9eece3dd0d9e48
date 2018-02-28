@@ -1,0 +1,24 @@
+package com.internousdev.yukazon.action;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.struts2.interceptor.SessionAware;
+
+import com.internousdev.yukazon.dao.BuyItemDAO;
+import com.internousdev.yukazon.dao.PasswordSettingDAO;
+import com.internousdev.yukazon.dto.BuyItemDTO;
+import com.internousdev.yukazon.dto.PasswordSettingDTO;
+import com.opensymphony.xwork2.ActionSupport;
+
+/**
+ * 秘密の質問、答え認証処理
+ * secretQuestionConfirm.jspからログインID、秘密の質問、答えを受け取り
+ * DBへ問い合わせを行います。
+ */
+
+public class PasswordSettingAction extends ActionSupport{
+	public String execute() {
+		return SUCCESS;
+	}
+}

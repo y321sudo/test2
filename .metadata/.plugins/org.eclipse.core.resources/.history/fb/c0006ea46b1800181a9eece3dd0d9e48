@@ -1,0 +1,15 @@
+package com.internousdev.yukazon.action;
+
+import com.opensymphony.xwork2.ActionSupport;
+
+/**
+ * 秘密の質問、答え認証処理
+ * secretQuestionConfirm.jspからログインID、秘密の質問、答えを受け取り
+ * DBへ問い合わせを行います。
+ */
+
+public class PasswordSettingAction extends ActionSupport{
+	public String execute() {
+		return SUCCESS;
+	}
+}

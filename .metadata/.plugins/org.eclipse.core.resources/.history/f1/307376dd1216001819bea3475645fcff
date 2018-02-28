@@ -1,0 +1,98 @@
+package com.internousdev.yukazon.action;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.struts2.interceptor.SessionAware;
+
+import com.internousdev.yukazon.dao.BuyItemDAO;
+import com.internousdev.yukazon.dao.LoginDAO;
+import com.internousdev.yukazon.dto.BuyItemDTO;
+import com.internousdev.yukazon.dto.LoginDTO;
+import com.opensymphony.xwork2.ActionSupport;
+
+/**
+ * ↓ログイン認証処理
+ * Login.jspからログインID、PASSを受け取りDAO,DTOを通してDBへ問い合わせる
+ *
+ * @author internous
+ * @param loginUserId
+ * @param loginPassword
+ *
+ * @return result
+ */
+
+public class LoginAction extends ActionSupport implements SessionAware{
+//ユーザーID
+	private String loginUserId;
+//パスワード
+	private String loginPassword;
+//ログイン情報を格納しておくMap
+	public Map<String, Object> session;
+// ログイン情報取得DAO
+	private LoginDAO ldao = new LoginDAO();
+//ログイン情報格納DTO
+	private LoginDTO ldto = new LoginDTO();
+//アイテム情報を取得
+	private BuyItemDAO bdao = new BuyItemDAO();
+
+
+/* 実行メソッドexecute!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+	public String execute() {
+//resultに初期値EROORを代入
+		String result = ERROR;
+
+// LoginDAOのgetLoginUserInfoメソッドの結果をldtoに代入
+		ldto=ldao.getLoginUserInfo(loginUserId,loginPassword);
+//上のldtoを"loginUser"というkeyでsessionに置いておく
+		session.put("loginUser", ldto);
+
+		if(((LoginDTO) session.get("loginUser")).getLoginMaster()){
+			buyItemDTOList=bdao.getBuyItemInfo();
+			session.put("buyItemDTOList", buyItemDTOList);
+			session.put("masterId",loginUserId);
+			result = "master";
+
+		}
+
+		if(result != "master"){
+/* ログイン情報を比較----------- */
+//LoginDTO型にキャスト→Object型のsessionをLoginDTO型に変更
+//(Object型はそのままgetできないので)
+// ※jspでは自動的にObject型→String型に変更してくれる
+//↓LoginDTO型にキャストしたsessionの"LoginFlg"を呼び出す
+		if(((LoginDTO) session.get("loginUser")).getLoginFlg()) {
+//"result"に"SUCCESS"を代入
+			result = SUCCESS;
+
+/* アイテム情報を取得---------- */
+//BuyItemDAOのgetBuyItemInfoメソッドの結果をbdtoに代入
+			BuyItemDTO bdto = bdao.getBuyItemInfo();
+//上のldtoやbtdoのメソッドを" "というkeyでsessionに置いておく
+			session.put("login_user_id",	ldto.getLoginId());
+			session.put("id", bdto.getId());
+			session.put("buyItem_name", bdto.getItemName());
+			session.put("buyItem_price", bdto.getItemPrice());
+			return result;
+		}
+		return result;
+	}
+
+//↓ログイン情報とsessionはprivateにしているため呼び出せるようにしておく
+	public String getLoginUserId() {
+		return loginUserId;
+	}
+	public void setLoginUserId(String loginUserId) {
+		this.loginUserId = loginUserId;
+	}
+	public String getLoginPassword() {
+		return loginPassword;
+	}
+	public void setLoginPassword(String loginPassword) {
+		this.loginPassword = loginPassword;
+	}
+@Override
+	public void setSession(Map<String, Object> session) {
+		this.session = session;
+	}
+}
